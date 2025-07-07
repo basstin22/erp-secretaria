@@ -3,27 +3,26 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 
 const app = express();
-const PORT = 5000;
+const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
 
-// ✅ Conexión a MongoDB
-mongoose.connect("mongodb://localhost:27017/erpsecretaria", {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
-.then(() => console.log("✅ Conectado a MongoDB"))
-.catch((err) => console.error("❌ Error conectando a MongoDB:", err));
+// ✅ Conexión a MongoDB (usa variable de entorno si existe)
+mongoose
+  .connect(process.env.MONGODB_URI || "mongodb://localhost:27017/erpsecretaria", {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+  })
+  .then(() => console.log("✅ Conectado a MongoDB"))
+  .catch((err) => console.error("❌ Error conectando a MongoDB:", err));
 
 // ==========================
 // 🧾 Modelo: Factura
 // ==========================
 const facturaSchema = new mongoose.Schema({
   cliente: String,
-  productos: [
-    { nombre: String, cantidad: Number, precio: Number },
-  ],
+  productos: [{ nombre: String, cantidad: Number, precio: Number }],
   total: Number,
   fecha: Date,
 });
@@ -79,16 +78,16 @@ const Reporte = mongoose.model("Reporte", reporteSchema);
 // 🚚 Modelo: Control Combustible
 // ==========================
 const combustibleSchema = new mongoose.Schema({
-  fecha: { type: String, required: true },
-  vehiculo: { type: String, required: true },
-  patente: { type: String, required: true },
-  kmActual: { type: Number, required: true },
-  kmAnterior: { type: Number, required: true },
-  litrosCargados: { type: Number, required: true },
-  precioPorLitro: { type: Number, required: true },
-  totalGastado: { type: Number, required: true },
-  rendimiento: { type: Number, required: true }, // km/l
-  observaciones: { type: String },
+  fecha: String,
+  vehiculo: String,
+  patente: String,
+  kmActual: Number,
+  kmAnterior: Number,
+  litrosCargados: Number,
+  precioPorLitro: Number,
+  totalGastado: Number,
+  rendimiento: Number,
+  observaciones: String,
 });
 
 const Combustible = mongoose.model("Combustible", combustibleSchema);
@@ -236,8 +235,6 @@ app.get("/equipos", async (req, res) => {
   }
 });
 
-
-// 🔹 Eliminar equipo
 app.delete("/equipos/:id", async (req, res) => {
   try {
     await Equipo.findByIdAndDelete(req.params.id);
@@ -247,7 +244,6 @@ app.delete("/equipos/:id", async (req, res) => {
   }
 });
 
-// 🔹 Actualizar equipo
 app.put("/equipos/:id", async (req, res) => {
   try {
     const actualizado = await Equipo.findByIdAndUpdate(req.params.id, req.body, { new: true });
@@ -257,13 +253,10 @@ app.put("/equipos/:id", async (req, res) => {
   }
 });
 
-
-
-
+// 🔹 Rendimiento por vehículo
 app.get("/rendimiento", async (req, res) => {
   try {
     const registros = await Combustible.find();
-
     const agrupado = {};
 
     registros.forEach((r) => {
@@ -297,12 +290,9 @@ app.get("/rendimiento", async (req, res) => {
   }
 });
 
-
-
-
 // ==========================
 // 🚀 Iniciar Servidor
 // ==========================
-app.listen(PORT, () => {
-  console.log(`🟢 Servidor corriendo en http://localhost:${PORT}`);
+app.listen(PORT, '0.0.0.0', () => {
+  console.log(`🟢 Servidor corriendo en el puerto ${PORT}`);
 });
