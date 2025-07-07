@@ -1,0 +1,87 @@
+.cotizacion-container {
+  max-width: 900px;
+  margin: 40px auto;
+  padding: 30px;
+  border: 1px solid #ccc;
+  border-radius: 12px;
+  font-family: 'Segoe UI', sans-serif;
+  background-color: #fdfdfd;
+  box-shadow: 0 0 12px rgba(0, 0, 0, 0.08);
+}
+
+.cotizacion-header {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid #007BFF;
+  padding-bottom: 10px;
+  margin-bottom: 20px;
+}
+
+.cotizacion-logo {
+  width: 80px;
+  margin-right: 20px;
+}
+
+.cotizacion-title {
+  margin: 0;
+  font-size: 1.8em;
+  color: #007BFF;
+}
+
+.cotizacion-subtitle {
+  margin: 0;
+  font-size: 1.2em;
+  color: #333;
+}
+
+.cotizacion-info {
+  margin: 20px 0;
+  font-size: 1em;
+  color: #444;
+}
+
+.cotizacion-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.cotizacion-table th,
+.cotizacion-table td {
+  border: 1px solid #ccc;
+  padding: 10px;
+  text-align: center;
+}
+
+.cotizacion-table th {
+  background-color: #f0f0f0;
+  font-weight: bold;
+}
+
+.cotizacion-details {
+  font-size: 1em;
+  color: #333;
+  line-height: 1.6;
+}
+
+
+
+
+@media print {
+  .boton-imprimir {
+    display: none;
+  }
+}
+.boton-imprimir {
+  padding: 10px 15px;
+  background-color: #28a745;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.boton-imprimir:hover {
+  background-color: #218838;
+}
