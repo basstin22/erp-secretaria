@@ -27,7 +27,8 @@ function Cotizacion() {
   useEffect(() => {
     const obtenerNumero = async () => {
       try {
-        const res = await fetch("http://localhost:5000/cotizaciones/ultimo");
+        const API = import.meta.env.VITE_API_URL || "http://localhost:5000"; // se coloca arriba del todo del archivo
+        const res = await fetch(`${API}/combustible`);
         const data = await res.json();
         const nuevoNumero = data.numero ? data.numero + 1 : 1;
         setContador(nuevoNumero);
